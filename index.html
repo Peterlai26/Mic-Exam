@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mali:wght@500;600;700&family=Noto+Sans+Thai+Looped:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&family=Pridi:wght@400;500;600;700&family=Prompt:wght@500;700;800&family=Sarabun:wght@400;500;600;700&display=swap">
 <style>
 /* Outer shell layout. All colours/borders come from skin tokens (see skinCSS in the script). */
-*{box-sizing:border-box}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.6;padding-inline:16px;padding-block:0 64px}
 .wrap{max-width:860px;margin:0 auto}
@@ -234,6 +234,8 @@ function skinCSS(){
   c+=`
 /* ===== shared component tokens (shell + study sets) ===== */
 ${P} body{background:var(--bg);color:var(--ink);font-family:var(--body)}
+${P} *{-webkit-tap-highlight-color:transparent}
+${P} button,${P} a,${P} .opt,${P} .tab{touch-action:manipulation}
 ${P} body::before{content:none}
 ${P} h1,${P} h2,${P} .wtitle,${P} .lch,${P} .lt,${P} .mode .t,${P} .stat .v,${P} .pct,${P} .bigscore .v,${P} .lnum,${P} .fcard .front{font-family:var(--display)}
 ${P} h1 .hl{background:linear-gradient(transparent 62%,var(--hl) 62%)}
