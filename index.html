@@ -769,7 +769,13 @@ function innerAnim(){
     if(ready&&/drill/.test(k)&&Date.now()-last.toast>12000){ last.toast=Date.now(); const t=D.createElement("div"); t.className="mxtoast"; t.textContent="บันทึกความคืบหน้าแล้ว"; D.body.append(t);
       t.animate([{opacity:0,transform:"translate(-50%,40px)"},{opacity:1,transform:"translate(-50%,0)",offset:.15},{opacity:1,transform:"translate(-50%,0)",offset:.75},{opacity:0,transform:"translate(-50%,40px)"}],{duration:2600,easing:"ease-out"}).onfinish=()=>t.remove(); } };
 }
-const ANIM_JS="("+ripple.toString()+")(document);("+innerAnim.toString()+")();";
+/* English first: every time a set opens, the Thai translation starts hidden (the toggle is one tap away) */
+const EN_EARLY='(function(){var g=Storage.prototype.getItem;Storage.prototype.getItem=function(k){var v=g.call(this,k);if(typeof k==="string"&&/drill-v1$/.test(k)&&v){try{var o=JSON.parse(v);if(o&&o.thai){o.thai=false;return JSON.stringify(o);}}catch(e){}}return v;};})();';
+function enFirst(){ var D=document, view=D.getElementById("view"); if(!view) return; var touched=false;
+  ["pointerdown","keydown"].forEach(function(e){ D.addEventListener(e,function(){ touched=true; },true); });
+  function fix(){ if(touched) return; var b=D.querySelector('.thbtn[aria-pressed="true"]'); if(b) b.click(); }
+  new MutationObserver(fix).observe(view,{childList:true}); fix(); }
+const ANIM_JS="("+ripple.toString()+")(document);("+innerAnim.toString()+")();("+enFirst.toString()+")();";
 
 /* ---- in-page study sets ---- */
 const SETS={}; document.querySelectorAll('script[type="application/json"][data-set]').forEach(n=>{ SETS[n.dataset.set]=n; });
@@ -790,7 +796,7 @@ function openSet(id){
   if(!frames[id]){
     const f=document.createElement("iframe"); f.className="setframe"; f.title="ชุดเตรียมสอบ "+id.toUpperCase();
     let html=""; try{ html=JSON.parse(src.textContent); }catch(e){ return; }
-    f.srcdoc='<!doctype html><html lang="th" data-skin="'+curSkin()+'" data-theme="light"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'+FONTS+'<style>body{margin:0}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>'+html+'<style id="skin-css">'+SKIN_CSS+'</style><scr'+'ipt>'+ANIM_JS+'</scr'+'ipt></body></html>';
+    f.srcdoc='<!doctype html><html lang="th" data-skin="'+curSkin()+'" data-theme="light"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'+FONTS+'<style>body{margin:0}[hidden]:not([hidden=until-found i]){display:none!important}</style><scr'+'ipt>'+EN_EARLY+'</scr'+'ipt></head><body>'+html+'<style id="skin-css">'+SKIN_CSS+'</style><scr'+'ipt>'+ANIM_JS+'</scr'+'ipt></body></html>';
     f.addEventListener("load",()=>decorate(f));
     stage.append(f); frames[id]=f;
     const t=SUBJECTS.flatMap(x=>Object.values(x.terms)).find(x=>x&&x.set===id);
@@ -805,7 +811,7 @@ function openSet(id){
   if(wasHidden&&!REDUCE) stage.animate([{transform:"translateX(100%)"},{transform:"none"}],{duration:360,easing:EASE});
 }
 window.__examLab={
-  home(){ const fin=()=>{ stage.hidden=true; document.body.classList.remove("inset"); cur=null; render(); window.scrollTo({top:hubScroll}); };
+  home(){ const fin=()=>{ Object.keys(frames).forEach(k=>{ frames[k].remove(); delete frames[k]; }); stage.hidden=true; document.body.classList.remove("inset"); cur=null; render(); window.scrollTo({top:hubScroll}); };
     if(REDUCE||stage.hidden){ fin(); return; } stage.animate([{transform:"none"},{transform:"translateX(100%)"}],{duration:280,easing:"ease-in"}).onfinish=fin; },
   setTheme(){ },
   skins(){ openSkins(false); }
