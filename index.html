@@ -441,7 +441,7 @@ ${P} .dhead .ico{animation:mx-iconin .8s cubic-bezier(.3,1.6,.5,1) both}
 ${P} .dhead>div{animation:mx-slideup .5s .3s both}
 /* tappable things: ripple host, lift on hover, press on tap, nudge arrow */
 ${P} .btn,${P} .mode,${P} .chip,${P} .tab,${P} .opt,${P} .lcard,${P} .hubback,${P} .skinbtn,${P} .iconbtn,${P} .back,${P} .ex,${P} .nb-row,${P} .sm-row,${P} .linkbtn{position:relative;overflow:hidden}
-${P} .ripple{position:absolute;border-radius:50%;background:currentColor;opacity:.22;transform:scale(0);animation:mx-ripple .6s ease-out forwards;pointer-events:none;z-index:2}
+${P} .ripple{position:absolute!important;border-radius:50%;background:currentColor;opacity:.22;transform:scale(0);animation:mx-ripple .6s ease-out forwards;pointer-events:none;z-index:2}
 ${P} .ex,${P} .mode,${P} .lcard,${P} .opt{transition:transform .12s,box-shadow .12s}
 ${P} .ex:hover,${P} .mode:hover,${P} .lcard:hover,${P} .opt:not(:disabled):hover{transform:translateY(var(--lift));box-shadow:var(--shl)}
 ${P} .ex:active,${P} .mode:active,${P} .lcard:active,${P} .opt:not(:disabled):active{transform:translate(var(--sho),var(--sho)) scale(.985);box-shadow:none}
@@ -459,7 +459,7 @@ ${P} .sm-big b.tk{display:inline-block;animation:mx-tick .9s ease-out}
 /* study sets: bars, options, explanation, streak */
 ${P} .meter>span{position:relative;overflow:hidden}
 ${P} .meter>span::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.6) 50%,transparent 70%);transform:translateX(-100%);animation:mx-shine .9s 1.1s ease both}
-${P} .opt>*{position:relative;z-index:1}
+${P} .opt>*:not(.ripple){position:relative;z-index:1}
 ${P} .opt.right,${P} .opt.wrong{background:var(--surface)}
 ${P} .opt.right::before,${P} .opt.wrong::before{content:"";position:absolute;inset:0;transform-origin:left;animation:mx-fillx .45s .1s ease-out both;z-index:0;pointer-events:none}
 ${P} .opt.right::before{background:var(--good-soft)}
