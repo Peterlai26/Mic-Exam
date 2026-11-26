@@ -3,9 +3,16 @@
 เว็บเตรียมสอบ MIC321 / MIC322 / MIC332 / MIC391 / MIC392 (ไฟล์เดียว `index.html` ไม่ต้อง build)
 
 ## ขึ้นเว็บ
-- **GitHub Pages:** Settings → Pages → Source: *GitHub Actions* (workflow อยู่ใน `.github/workflows/pages.yml`)
-- **Cloudflare Pages:** Workers & Pages → Create → Connect to Git → เลือก repo นี้
+- **Cloudflare Pages:** https://mic-exam.pages.dev/ (เชื่อมกับ repo นี้ผ่าน Git)
   Framework preset: None · Build command: (ว่าง) · Output directory: `/`
 
 ## อัปเดต
 แก้ `index.html` แล้ว commit ระบบจะ deploy เอง
+
+## ธีม
+มี 3 ธีม เปลี่ยนได้จากปุ่ม "ธีม" มุมบนขวา (ทั้งหน้าหลักและหน้าชุดเตรียมสอบ) ค่าที่เลือกเก็บใน `localStorage` ของเบราว์เซอร์ ไม่มีโหมดกลางคืน
+- **โปสเตอร์การ์ด** (ค่าเริ่มต้น): ช่องการ์ดสีสด ขอบหนา เมนูลอยด้านล่าง · ฟอนต์ Prompt
+- **สมุดแล็บ**: หน้าสมุดมีเส้นบรรทัด บันทึกเป็นรายการตามวันที่ แท็บคั่นหน้าด้านขวา · ฟอนต์ Pridi + Sarabun
+- **เรียบง่าย**: ขาวล้วน ตัวเลขนับถอยหลังใหญ่ รายการเส้นบาง · ฟอนต์ Noto Sans Thai
+- เข้าเว็บครั้งแรกจะมีหน้าเลือกธีมที่ต้องแตะดูให้ครบทั้ง 3 ธีมก่อนเริ่มใช้งาน
+- แต่ละธีมนิยามอยู่ในออบเจกต์ `SKINS` ใน `index.html` (สี ฟอนต์ และ CSS จัดหน้าของแต่ละธีม) หน้าชุดเตรียมสอบ (iframe) รับ CSS ชุดเดียวกันตอนเปิด
