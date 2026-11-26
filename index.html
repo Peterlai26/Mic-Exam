@@ -245,6 +245,10 @@ ${P} .explain{background:var(--sunk)}
 ${P} .fcard{border-style:solid}
 ${P} .plan li{box-shadow:none;border-radius:var(--rs)}
 ${P} .cd,${P} .themebtn,${P} .themetop{display:none}
+/* less text: long intros fold to 2 lines (tap to expand); captions, mascot bubble and mode blurbs are hidden */
+${P} .lede{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;cursor:pointer}
+${P} .lede.open{display:block;-webkit-line-clamp:unset}
+${P} .bubble,${P} .plate-cap,${P} .legend,${P} .mode .d,${P} .sec small,${P} .plansub{display:none}
 ${P} .btn{border:var(--bw) solid var(--edge);border-radius:var(--rs);box-shadow:var(--shs);background:var(--surface);color:var(--ink);font-weight:700}
 ${P} .btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--edge)}
 ${P} .btn:active:not([disabled]){transform:translate(var(--sho),var(--sho));box-shadow:none}
@@ -568,6 +572,7 @@ function decorate(f){
     const tt=d.getElementById("themetop"), box=d.createElement("span"); box.className="hbtns";
     const b=d.createElement("button"); b.id="skinbtn"; b.type="button"; b.className="skinbtn"; b.setAttribute("aria-label","เปลี่ยนธีม"); b.innerHTML=PALETTE; b.addEventListener("click",()=>window.__examLab.skins());
     hb.append(box); box.append(b); if(tt) box.append(tt);
+    d.addEventListener("click",e=>{ const l=e.target.closest&&e.target.closest(".lede"); if(l) l.classList.toggle("open"); });
   }catch(e){}
 }
 function openSet(id){
