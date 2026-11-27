@@ -808,7 +808,7 @@ function openSet(id,term){
     stage.append(f); frames[id]=f;
     const t=SUBJECTS.flatMap(x=>Object.values(x.terms)).find(x=>x&&x.set===id);
     setTimeout(()=>{ let ok=false; try{ const v=f.contentDocument&&f.contentDocument.getElementById("view"); ok=!!(v&&v.children.length); }catch(e){}
-      if(!ok && !f.hidden){ const fb=document.createElement("div"); fb.className="tile fallback"; fb.innerHTML=`<b>เปิดในหน้านี้ไม่ขึ้น</b><span>ลองเปิดแบบแยกหน้าแทน</span><div style="display:flex;gap:8px;flex-wrap:wrap"><a class="btn primary" href="${t?t.link:"#"}" target="_blank" rel="noopener">เปิดแยกหน้า</a><button class="btn" type="button">กลับหน้าหลัก</button></div>`; fb.querySelector("button").onclick=()=>{ fb.remove(); window.__examLab.home(); }; stage.append(fb); } },3000);
+      if(!ok && !f.hidden && f.isConnected && stage.contains(f)){ const fb=document.createElement("div"); fb.className="tile fallback"; fb.innerHTML=`<b>เปิดในหน้านี้ไม่ขึ้น</b><span>ลองเปิดแบบแยกหน้าแทน</span><div style="display:flex;gap:8px;flex-wrap:wrap"><a class="btn primary" href="${t?t.link:"#"}" target="_blank" rel="noopener">เปิดแยกหน้า</a><button class="btn" type="button">กลับหน้าหลัก</button></div>`; fb.querySelector("button").onclick=()=>{ fb.remove(); window.__examLab.home(); }; stage.append(fb); } },3000);
   } else {
     try{ const w=frames[id].contentWindow; w.__themeMem="light"; w.themeApply&&w.themeApply(); }catch(e){}
     Object.values(frames).forEach(f=>{ try{ f.contentDocument.documentElement.setAttribute("data-skin",curSkin()); }catch(e){} });
@@ -818,7 +818,7 @@ function openSet(id,term){
   if(wasHidden&&!REDUCE) stage.animate([{transform:"translateX(100%)"},{transform:"none"}],{duration:360,easing:EASE});
 }
 window.__examLab={
-  home(){ const fin=()=>{ Object.keys(frames).forEach(k=>{ frames[k].remove(); delete frames[k]; }); stage.hidden=true; document.body.classList.remove("inset"); cur=null; render(); window.scrollTo({top:hubScroll}); };
+  home(){ const fin=()=>{ Object.keys(frames).forEach(k=>{ frames[k].remove(); delete frames[k]; }); stage.querySelectorAll(".fallback").forEach(x=>x.remove()); stage.hidden=true; document.body.classList.remove("inset"); cur=null; render(); window.scrollTo({top:hubScroll}); };
     if(REDUCE||stage.hidden){ fin(); return; } stage.animate([{transform:"none"},{transform:"translateX(100%)"}],{duration:280,easing:"ease-in"}).onfinish=fin; },
   setTheme(){ },
   skins(){ openSkins(false); }
